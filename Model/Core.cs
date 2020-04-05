@@ -25,7 +25,7 @@ namespace SchedulerLK.Model
             int tryAlocate = 0;
             foreach (Core core in coresProcessor)
             {
-                if (core.Processos == null || !core.Processos.Any(x => x.Estado.Contains("Pronto ✔") || x.Estado.Contains("Executando 🔄")) /*&& alocate == 0*/)
+                if (core.Processos.Count < 5 /*|| !core.Processos.Any(x => x.Estado.Contains("Pronto ✔") || x.Estado.Contains("Executando 🔄"))*/)
                 {
                         core.Processos.Add(process);
                         alocate++;

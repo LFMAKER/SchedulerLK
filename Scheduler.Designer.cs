@@ -1,4 +1,6 @@
-﻿namespace SchedulerLK
+﻿using System;
+
+namespace SchedulerLK
 {
     partial class Scheduler
     {
@@ -28,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.lblTipoProcesso = new System.Windows.Forms.Label();
@@ -45,10 +47,19 @@
             this.TempoUCPGrid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TipoProcessoGrid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lblGridCore4 = new System.Windows.Forms.Label();
+            this.lblGridCore3 = new System.Windows.Forms.Label();
+            this.lblGridCore2 = new System.Windows.Forms.Label();
             this.lblGridCore1 = new System.Windows.Forms.Label();
             this.GridCore4 = new System.Windows.Forms.DataGridView();
+            this.PIDGridCore4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EstadoGridCore4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GridCore3 = new System.Windows.Forms.DataGridView();
+            this.PIDGridCore3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EstadoGridCore3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GridCore2 = new System.Windows.Forms.DataGridView();
+            this.PIDGridCore2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EstadoGridCore2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GridCore1 = new System.Windows.Forms.DataGridView();
             this.PIDGridCore1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EstadoGridCore1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,16 +70,7 @@
             this.lblProcessTx = new System.Windows.Forms.Label();
             this.txtProcessTx = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.PIDGridCore2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EstadoGridCore2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PIDGridCore3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EstadoGridCore3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PIDGridCore4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EstadoGridCore4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lblGridCore2 = new System.Windows.Forms.Label();
-            this.lblGridCore3 = new System.Windows.Forms.Label();
-            this.lblGridCore4 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Agora = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TempoUCP)).BeginInit();
@@ -79,7 +81,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.GridCore3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridCore2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridCore1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -94,7 +95,6 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.dataGridView1);
             this.tabPage1.Controls.Add(this.lblTipoProcesso);
             this.tabPage1.Controls.Add(this.lblTempoUCP);
             this.tabPage1.Controls.Add(this.lblPrioridade);
@@ -114,7 +114,7 @@
             // lblTipoProcesso
             // 
             this.lblTipoProcesso.AutoSize = true;
-            this.lblTipoProcesso.Location = new System.Drawing.Point(215, 67);
+            this.lblTipoProcesso.Location = new System.Drawing.Point(452, 58);
             this.lblTipoProcesso.Name = "lblTipoProcesso";
             this.lblTipoProcesso.Size = new System.Drawing.Size(90, 13);
             this.lblTipoProcesso.TabIndex = 7;
@@ -123,7 +123,7 @@
             // lblTempoUCP
             // 
             this.lblTempoUCP.AutoSize = true;
-            this.lblTempoUCP.Location = new System.Drawing.Point(116, 67);
+            this.lblTempoUCP.Location = new System.Drawing.Point(325, 58);
             this.lblTempoUCP.Name = "lblTempoUCP";
             this.lblTempoUCP.Size = new System.Drawing.Size(65, 13);
             this.lblTempoUCP.TabIndex = 6;
@@ -132,7 +132,7 @@
             // lblPrioridade
             // 
             this.lblPrioridade.AutoSize = true;
-            this.lblPrioridade.Location = new System.Drawing.Point(17, 68);
+            this.lblPrioridade.Location = new System.Drawing.Point(190, 58);
             this.lblPrioridade.Name = "lblPrioridade";
             this.lblPrioridade.Size = new System.Drawing.Size(54, 13);
             this.lblPrioridade.TabIndex = 5;
@@ -140,9 +140,9 @@
             // 
             // btnCriarProcesso
             // 
-            this.btnCriarProcesso.Location = new System.Drawing.Point(347, 80);
+            this.btnCriarProcesso.Location = new System.Drawing.Point(627, 71);
             this.btnCriarProcesso.Name = "btnCriarProcesso";
-            this.btnCriarProcesso.Size = new System.Drawing.Size(85, 31);
+            this.btnCriarProcesso.Size = new System.Drawing.Size(89, 32);
             this.btnCriarProcesso.TabIndex = 4;
             this.btnCriarProcesso.Text = "Criar Processo";
             this.btnCriarProcesso.UseVisualStyleBackColor = true;
@@ -150,7 +150,7 @@
             // 
             // TempoUCP
             // 
-            this.TempoUCP.Location = new System.Drawing.Point(116, 86);
+            this.TempoUCP.Location = new System.Drawing.Point(328, 79);
             this.TempoUCP.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -172,7 +172,7 @@
             // 
             // Prioridade
             // 
-            this.Prioridade.Location = new System.Drawing.Point(17, 87);
+            this.Prioridade.Location = new System.Drawing.Point(193, 79);
             this.Prioridade.Maximum = new decimal(new int[] {
             10,
             0,
@@ -195,7 +195,7 @@
             // TipoProcesso
             // 
             this.TipoProcesso.FormattingEnabled = true;
-            this.TipoProcesso.Location = new System.Drawing.Point(218, 85);
+            this.TipoProcesso.Location = new System.Drawing.Point(455, 79);
             this.TipoProcesso.Name = "TipoProcesso";
             this.TipoProcesso.Size = new System.Drawing.Size(113, 21);
             this.TipoProcesso.TabIndex = 1;
@@ -210,20 +210,21 @@
             this.PrioridadeGrid,
             this.EstadoGrid,
             this.TempoUCPGrid,
-            this.TipoProcessoGrid});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.GridProcessos.DefaultCellStyle = dataGridViewCellStyle1;
+            this.TipoProcessoGrid,
+            this.Agora});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.GridProcessos.DefaultCellStyle = dataGridViewCellStyle2;
             this.GridProcessos.GridColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.GridProcessos.Location = new System.Drawing.Point(17, 173);
+            this.GridProcessos.Location = new System.Drawing.Point(143, 175);
             this.GridProcessos.Name = "GridProcessos";
             this.GridProcessos.ReadOnly = true;
-            this.GridProcessos.Size = new System.Drawing.Size(523, 271);
+            this.GridProcessos.Size = new System.Drawing.Size(621, 271);
             this.GridProcessos.TabIndex = 0;
             // 
             // PIDGrid
@@ -281,6 +282,33 @@
             this.tabPage2.Text = "Processador";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // lblGridCore4
+            // 
+            this.lblGridCore4.AutoSize = true;
+            this.lblGridCore4.Location = new System.Drawing.Point(401, 319);
+            this.lblGridCore4.Name = "lblGridCore4";
+            this.lblGridCore4.Size = new System.Drawing.Size(38, 13);
+            this.lblGridCore4.TabIndex = 11;
+            this.lblGridCore4.Text = "Core 4";
+            // 
+            // lblGridCore3
+            // 
+            this.lblGridCore3.AutoSize = true;
+            this.lblGridCore3.Location = new System.Drawing.Point(709, 123);
+            this.lblGridCore3.Name = "lblGridCore3";
+            this.lblGridCore3.Size = new System.Drawing.Size(38, 13);
+            this.lblGridCore3.TabIndex = 10;
+            this.lblGridCore3.Text = "Core 3";
+            // 
+            // lblGridCore2
+            // 
+            this.lblGridCore2.AutoSize = true;
+            this.lblGridCore2.Location = new System.Drawing.Point(399, 124);
+            this.lblGridCore2.Name = "lblGridCore2";
+            this.lblGridCore2.Size = new System.Drawing.Size(38, 13);
+            this.lblGridCore2.TabIndex = 9;
+            this.lblGridCore2.Text = "Core 2";
+            // 
             // lblGridCore1
             // 
             this.lblGridCore1.AutoSize = true;
@@ -302,6 +330,18 @@
             this.GridCore4.Size = new System.Drawing.Size(251, 150);
             this.GridCore4.TabIndex = 7;
             // 
+            // PIDGridCore4
+            // 
+            this.PIDGridCore4.HeaderText = "PID";
+            this.PIDGridCore4.Name = "PIDGridCore4";
+            this.PIDGridCore4.ReadOnly = true;
+            // 
+            // EstadoGridCore4
+            // 
+            this.EstadoGridCore4.HeaderText = "Estado";
+            this.EstadoGridCore4.Name = "EstadoGridCore4";
+            this.EstadoGridCore4.ReadOnly = true;
+            // 
             // GridCore3
             // 
             this.GridCore3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -314,6 +354,18 @@
             this.GridCore3.Size = new System.Drawing.Size(247, 150);
             this.GridCore3.TabIndex = 6;
             // 
+            // PIDGridCore3
+            // 
+            this.PIDGridCore3.HeaderText = "PID";
+            this.PIDGridCore3.Name = "PIDGridCore3";
+            this.PIDGridCore3.ReadOnly = true;
+            // 
+            // EstadoGridCore3
+            // 
+            this.EstadoGridCore3.HeaderText = "Estado";
+            this.EstadoGridCore3.Name = "EstadoGridCore3";
+            this.EstadoGridCore3.ReadOnly = true;
+            // 
             // GridCore2
             // 
             this.GridCore2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -325,6 +377,18 @@
             this.GridCore2.ReadOnly = true;
             this.GridCore2.Size = new System.Drawing.Size(248, 150);
             this.GridCore2.TabIndex = 5;
+            // 
+            // PIDGridCore2
+            // 
+            this.PIDGridCore2.HeaderText = "PID";
+            this.PIDGridCore2.Name = "PIDGridCore2";
+            this.PIDGridCore2.ReadOnly = true;
+            // 
+            // EstadoGridCore2
+            // 
+            this.EstadoGridCore2.HeaderText = "Estado";
+            this.EstadoGridCore2.Name = "EstadoGridCore2";
+            this.EstadoGridCore2.ReadOnly = true;
             // 
             // GridCore1
             // 
@@ -405,85 +469,22 @@
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
-            // PIDGridCore2
+            // Agora
             // 
-            this.PIDGridCore2.HeaderText = "PID";
-            this.PIDGridCore2.Name = "PIDGridCore2";
-            this.PIDGridCore2.ReadOnly = true;
-            // 
-            // EstadoGridCore2
-            // 
-            this.EstadoGridCore2.HeaderText = "Estado";
-            this.EstadoGridCore2.Name = "EstadoGridCore2";
-            this.EstadoGridCore2.ReadOnly = true;
-            // 
-            // PIDGridCore3
-            // 
-            this.PIDGridCore3.HeaderText = "PID";
-            this.PIDGridCore3.Name = "PIDGridCore3";
-            this.PIDGridCore3.ReadOnly = true;
-            // 
-            // EstadoGridCore3
-            // 
-            this.EstadoGridCore3.HeaderText = "Estado";
-            this.EstadoGridCore3.Name = "EstadoGridCore3";
-            this.EstadoGridCore3.ReadOnly = true;
-            // 
-            // PIDGridCore4
-            // 
-            this.PIDGridCore4.HeaderText = "PID";
-            this.PIDGridCore4.Name = "PIDGridCore4";
-            this.PIDGridCore4.ReadOnly = true;
-            // 
-            // EstadoGridCore4
-            // 
-            this.EstadoGridCore4.HeaderText = "Estado";
-            this.EstadoGridCore4.Name = "EstadoGridCore4";
-            this.EstadoGridCore4.ReadOnly = true;
-            // 
-            // lblGridCore2
-            // 
-            this.lblGridCore2.AutoSize = true;
-            this.lblGridCore2.Location = new System.Drawing.Point(399, 124);
-            this.lblGridCore2.Name = "lblGridCore2";
-            this.lblGridCore2.Size = new System.Drawing.Size(38, 13);
-            this.lblGridCore2.TabIndex = 9;
-            this.lblGridCore2.Text = "Core 2";
-            // 
-            // lblGridCore3
-            // 
-            this.lblGridCore3.AutoSize = true;
-            this.lblGridCore3.Location = new System.Drawing.Point(709, 123);
-            this.lblGridCore3.Name = "lblGridCore3";
-            this.lblGridCore3.Size = new System.Drawing.Size(38, 13);
-            this.lblGridCore3.TabIndex = 10;
-            this.lblGridCore3.Text = "Core 3";
-            // 
-            // lblGridCore4
-            // 
-            this.lblGridCore4.AutoSize = true;
-            this.lblGridCore4.Location = new System.Drawing.Point(401, 319);
-            this.lblGridCore4.Name = "lblGridCore4";
-            this.lblGridCore4.Size = new System.Drawing.Size(38, 13);
-            this.lblGridCore4.TabIndex = 11;
-            this.lblGridCore4.Text = "Core 4";
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(598, 67);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(269, 377);
-            this.dataGridView1.TabIndex = 8;
+            this.Agora.HeaderText = "Agora";
+            this.Agora.Name = "Agora";
+            this.Agora.ReadOnly = true;
             // 
             // Scheduler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(210)))), ((int)(((byte)(245)))));
             this.ClientSize = new System.Drawing.Size(929, 584);
             this.Controls.Add(this.txtProcessTx);
             this.Controls.Add(this.lblProcessTx);
             this.Controls.Add(this.tabControl1);
+            this.MaximizeBox = false;
             this.Name = "Scheduler";
             this.Text = "SchedulerLK";
             this.Load += new System.EventHandler(this.Scheduler_Load);
@@ -499,11 +500,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.GridCore3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridCore2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridCore1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
+
 
         #endregion
 
@@ -546,7 +547,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn EstadoGridCore3;
         private System.Windows.Forms.DataGridViewTextBoxColumn PIDGridCore2;
         private System.Windows.Forms.DataGridViewTextBoxColumn EstadoGridCore2;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Agora;
     }
 }
 

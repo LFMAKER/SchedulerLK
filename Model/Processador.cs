@@ -16,7 +16,7 @@ namespace SchedulerLK.Model
         public Processador()
         {
             this.Name = GetNameProcessor();
-            this.QtdCores = GetCoresProcessor();
+            this.QtdCores = 4;
             this.Cores = DefineCoreProcessors(QtdCores);
         }
 

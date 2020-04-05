@@ -25,7 +25,7 @@ namespace SchedulerLK
         {
             InitializeComponent();
             InitializeBackgroundWorker();
-            backgroundWorker1.WorkerReportsProgress = false;
+            backgroundWorker1.WorkerReportsProgress = true;
             backgroundWorker1.WorkerSupportsCancellation = false;
         }
 
@@ -37,6 +37,8 @@ namespace SchedulerLK
             //Tipos de Processo
             List<TipoProcesso> tp = new List<TipoProcesso>();
             tp.Add(new TipoProcesso() { Id = 0, Nome = "CPU Bound" });
+            tp.Add(new TipoProcesso() { Id = 1, Nome = "I/O Bound" });
+
             TipoProcesso.DisplayMember = "Nome";
             TipoProcesso.ValueMember = "Id";
             TipoProcesso.DataSource = tp;
@@ -50,8 +52,8 @@ namespace SchedulerLK
             coreEspera = new CoreEspera();
             coreEspera.ProcessosEspera = new List<Processo>();
 
-            txtProcessorName.Text = processadorGlobal.Name;
-            txtQtdProcesorCores.Text = processadorGlobal.QtdCores.ToString();
+            txtProcessorName.Text = "LK-X888 2.89Ghz";
+            txtQtdProcesorCores.Text = "4";
 
             backgroundWorker1.RunWorkerAsync();
         }
@@ -69,6 +71,8 @@ namespace SchedulerLK
             ss.Columns.Add("Estado");
             ss.Columns.Add("Tempo UCP");
             ss.Columns.Add("Tipo Processo");
+            ss.Columns.Add("Agora");
+
             //Criando o Processo e alocando
             Processo processo = new Processo(
                 PID, Convert.ToInt32(Prioridade.Value),
@@ -78,7 +82,7 @@ namespace SchedulerLK
                     Id = Convert.ToInt32(TipoProcesso.SelectedValue),
                     Nome = TipoProcesso.SelectedItem.ToString()
                 },
-                "Pronto ✔");
+                "Pronto ✔", "Alocando Core");
             (int, int, string) CoreAllocated = Core.CoreSelector(processadorGlobal.Cores, processo, coreEspera);
 
             //Adiciona o processo no grid do core responsável
@@ -90,6 +94,8 @@ namespace SchedulerLK
             row["Estado"] = processo.Estado;
             row["Tempo UCP"] = processo.TempoUCP;
             row["Tipo Processo"] = processo.TipoProcesso.Nome;
+            row["Agora"] = processo.Agora;
+
 
             ss.Rows.Add(row);
 
@@ -101,6 +107,8 @@ namespace SchedulerLK
                 GridProcessos.Rows[num].Cells[2].Value = Drow["Estado"].ToString();
                 GridProcessos.Rows[num].Cells[3].Value = Drow["Tempo UCP"].ToString();
                 GridProcessos.Rows[num].Cells[4].Value = Drow["Tipo Processo"].ToString();
+                GridProcessos.Rows[num].Cells[5].Value = Drow["Agora"].ToString();
+
 
             }
 
@@ -121,6 +129,9 @@ namespace SchedulerLK
             backgroundWorker1.RunWorkerCompleted +=
                 new RunWorkerCompletedEventHandler(
             backgroundWorker1_RunWorkerCompleted);
+            backgroundWorker1.ProgressChanged +=
+                new ProgressChangedEventHandler(
+            backgroundWorker1_ProgressChanged);
 
 
 
@@ -156,35 +167,52 @@ namespace SchedulerLK
             {
                 Processador processadorReserva = new Processador();
                 processadorReserva.Cores = processadorGlobal.Cores;
-                
+
                 ProcessTx(GenerateTx());
                 foreach (Core core in processadorReserva.Cores)
                 {
                     foreach (Processo processw in core.Processos)
                     {
-                        if(!processw.Estado.Equals("Finalizado ❎")){
+                        //Verificar se não existe um processo com maior prioridade aguardando ou em execução
+                        if (!processw.Estado.Equals("Finalizado ❎"))
+                        {
                             //Thread.Sleep(1000);
 
-                            await processw.ExecuteCicle();
-                            foreach (DataGridViewRow row in GridProcessos.Rows)
+                            bool TemMaior = processadorGlobal.Cores[core.IdCore - 1].Processos.Any(x => x.Prioridade > processw.Prioridade && !x.Estado.Equals("Finalizado ❎"));
+                            bool TemExecutandoNoCore = processadorGlobal.Cores[core.IdCore - 1].Processos.Any(x => x.Estado.Equals("Executando 🔄") && x.Prioridade == processw.Prioridade && !x.Pid.Equals(processw.Pid));
+
+                            if (!TemMaior && !TemExecutandoNoCore)
                             {
 
-                                if (row.Cells[0].Value != null)
-                                {
-                                    string pid = row.Cells[0].Value.ToString();
-                                    if (pid.Equals(processw.Pid.ToString()))
-                                    {
-                                        GridProcessos.Rows[row.Index].Cells[2].Value = processw.Estado;
-                                        GridProcessos.Rows[row.Index].Cells[3].Value = processw.RunningNumeCycles;
+                                bool finalizou = await processw.ExecuteCicle();
 
-                                    }
+                                //Atualiza o status na Grid de Processos
+                                AtualizarGridProcessos(processw);
+
+                                //Atualiza o status do processo da Grid Core responsável
+                                AtualizarGridCores(processw, core.IdCore);
+
+                                if (finalizou)
+                                {
+                                    //Remover finalizado do core e grid core
+                                    RemoverProcessoCore(processw, core.IdCore);
                                 }
 
-                            }
-                            
-                        }
-                        
 
+                            }
+                            else
+                            {
+                                //O Processo deve ser alocado em espera para que um de prioridade maior fique em execução
+                                processw.Estado = "Em Espera 🅿️";
+                                processw.Agora = "Aguardando";
+
+
+                                AtualizarGridProcessos(processw);
+                                //Atualizar Estado para Em Espera no core em que o processo se encontra.
+                                AtualizarGridCores(processw, core.IdCore);
+                            }
+
+                        }
                     }
                 }
 
@@ -193,34 +221,20 @@ namespace SchedulerLK
                 coreEsperaReserva = coreEspera;
 
                 //Alocando processos em espera para um core disponível
-                foreach(Processo processo in coreEsperaReserva.ProcessosEspera)
+                foreach (Processo processo in coreEsperaReserva.ProcessosEspera)
                 {
                     (int, int, string) CoreAllocated = Core.CoreSelector(processadorGlobal.Cores, processo, coreEspera);
-                    if(CoreAllocated.Item1 != 0)
+                    if (CoreAllocated.Item1 != 0)
                     {
                         //Adiciona o processo no grid do core responsável
                         DefineCoreGrid(CoreAllocated);
 
-                        foreach (DataGridViewRow row in GridProcessos.Rows)
-                        {
 
-                            if (row.Cells[0].Value != null)
-                            {
-                                string pid = row.Cells[0].Value.ToString();
-                                if (pid.Equals(processo.Pid.ToString()))
-                                {
-                                    GridProcessos.Rows[row.Index].Cells[2].Value = processo.Estado;
-                                    GridProcessos.Rows[row.Index].Cells[3].Value = processo.RunningNumeCycles;
-
-                                }
-                            }
-
-                        }
 
 
                         coreEspera.ProcessosEspera.Remove(processo);
                     }
-                   
+
                 }
 
 
@@ -310,5 +324,166 @@ namespace SchedulerLK
 
 
         }
+
+        public void AtualizarGridCores(Processo processw, int core)
+        {
+            switch (core)
+            {
+                case 1:
+                    foreach (DataGridViewRow row in GridCore1.Rows)
+                    {
+                        if (row.Cells[0].Value != null)
+                        {
+                            string pid = row.Cells[0].Value.ToString();
+                            if (pid.Equals(processw.Pid.ToString()))
+                            {
+                                GridCore1.Rows[row.Index].Cells[1].Value = processw.Estado;
+
+                            }
+                        }
+                    }
+                    break;
+
+                case 2:
+                    foreach (DataGridViewRow row in GridCore2.Rows)
+                    {
+                        if (row.Cells[0].Value != null)
+                        {
+                            string pid = row.Cells[0].Value.ToString();
+                            if (pid.Equals(processw.Pid.ToString()))
+                            {
+                                GridCore2.Rows[row.Index].Cells[1].Value = processw.Estado;
+
+                            }
+                        }
+                    }
+                    break;
+
+                case 3:
+                    foreach (DataGridViewRow row in GridCore3.Rows)
+                    {
+                        if (row.Cells[0].Value != null)
+                        {
+                            string pid = row.Cells[0].Value.ToString();
+                            if (pid.Equals(processw.Pid.ToString()))
+                            {
+                                GridCore3.Rows[row.Index].Cells[1].Value = processw.Estado;
+
+                            }
+                        }
+                    }
+                    break;
+
+                case 4:
+                    foreach (DataGridViewRow row in GridCore4.Rows)
+                    {
+                        if (row.Cells[0].Value != null)
+                        {
+                            string pid = row.Cells[0].Value.ToString();
+                            if (pid.Equals(processw.Pid.ToString()))
+                            {
+                                GridCore4.Rows[row.Index].Cells[1].Value = processw.Estado;
+
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+        public void AtualizarGridProcessos(Processo processo)
+        {
+            foreach (DataGridViewRow row in GridProcessos.Rows)
+            {
+
+                if (row.Cells[0].Value != null)
+                {
+                    string pid = row.Cells[0].Value.ToString();
+                    if (pid.Equals(processo.Pid.ToString()))
+                    {
+                        GridProcessos.Rows[row.Index].Cells[2].Value = processo.Estado;
+                        GridProcessos.Rows[row.Index].Cells[3].Value = processo.RunningNumeCycles;
+                        GridProcessos.Rows[row.Index].Cells[5].Value = processo.Agora;
+
+
+                    }
+                }
+
+            }
+        }
+
+        public void RemoverProcessoCore(Processo processw, int core)
+        {
+            processadorGlobal.Cores[core - 1].Processos.Remove(processw);
+
+            //Removendo do grid core
+            switch (core)
+            {
+                case 1:
+                    foreach (DataGridViewRow row in GridCore1.Rows)
+                    {
+                        if (row.Cells[0].Value != null)
+                        {
+                            string pid = row.Cells[0].Value.ToString();
+                            if (pid.Equals(processw.Pid.ToString()))
+                            {
+                                GridCore1.Rows.RemoveAt(row.Index);
+
+                            }
+                        }
+                    }
+                    break;
+
+                case 2:
+                    foreach (DataGridViewRow row in GridCore2.Rows)
+                    {
+                        if (row.Cells[0].Value != null)
+                        {
+                            string pid = row.Cells[0].Value.ToString();
+                            if (pid.Equals(processw.Pid.ToString()))
+                            {
+                                GridCore2.Rows.RemoveAt(row.Index);
+
+                            }
+                        }
+                    }
+                    break;
+
+                case 3:
+                    foreach (DataGridViewRow row in GridCore3.Rows)
+                    {
+                        if (row.Cells[0].Value != null)
+                        {
+                            string pid = row.Cells[0].Value.ToString();
+                            if (pid.Equals(processw.Pid.ToString()))
+                            {
+                                GridCore3.Rows.RemoveAt(row.Index);
+
+                            }
+                        }
+                    }
+                    break;
+
+                case 4:
+                    foreach (DataGridViewRow row in GridCore4.Rows)
+                    {
+                        if (row.Cells[0].Value != null)
+                        {
+                            string pid = row.Cells[0].Value.ToString();
+                            if (pid.Equals(processw.Pid.ToString()))
+                            {
+                                GridCore4.Rows.RemoveAt(row.Index);
+
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+           
+        }
+
     }
 }
