@@ -15,6 +15,11 @@ namespace SchedulerLK
 {
     public partial class Scheduler : Form
     {
+        //Moving
+        int mov;
+        int movX;
+        int movY;
+
         #region InitializeProcessor
         Processador processadorGlobal;
         CoreEspera coreEspera;
@@ -32,7 +37,7 @@ namespace SchedulerLK
         #region Load
         private void Scheduler_Load(object sender, EventArgs e)
         {
-
+            this.Location = Screen.AllScreens[0].WorkingArea.Location;
 
             //Tipos de Processo
             List<TipoProcesso> tp = new List<TipoProcesso>();
@@ -44,6 +49,7 @@ namespace SchedulerLK
             TipoProcesso.DataSource = tp;
             TipoProcesso.SelectedIndex = 0;
 
+            TempoUCP.Text = "1";
 
             //Alocando Processador
             processadorGlobal = new Processador();
@@ -52,16 +58,15 @@ namespace SchedulerLK
             coreEspera = new CoreEspera();
             coreEspera.ProcessosEspera = new List<Processo>();
 
-            txtProcessorName.Text = "LK-X888 2.89Ghz";
-            txtQtdProcesorCores.Text = "4";
 
             backgroundWorker1.RunWorkerAsync();
         }
         #endregion Load
 
         #region Click
-        private void btnCriarProcesso_Click(object sender, EventArgs e)
+        private void btnCriarProcesso_Click_1(object sender, EventArgs e)
         {
+
             Random numAleatorio = new Random();
             int PID = numAleatorio.Next(1, 1000);
 
@@ -75,8 +80,8 @@ namespace SchedulerLK
 
             //Criando o Processo e alocando
             Processo processo = new Processo(
-                PID, Convert.ToInt32(Prioridade.Value),
-                Convert.ToInt32(TempoUCP.Value),
+                PID, SliderPrioridade.Value,
+                Convert.ToInt32(TempoUCP.Text),
                 new Model.TipoProcesso()
                 {
                     Id = Convert.ToInt32(TipoProcesso.SelectedValue),
@@ -139,7 +144,7 @@ namespace SchedulerLK
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        {
+         {
 
             // Get the BackgroundWorker that raised this event.
             BackgroundWorker worker = sender as BackgroundWorker;
@@ -168,7 +173,7 @@ namespace SchedulerLK
                 Processador processadorReserva = new Processador();
                 processadorReserva.Cores = processadorGlobal.Cores;
 
-                ProcessTx(GenerateTx());
+                ProcessTx(1);
                 foreach (Core core in processadorReserva.Cores)
                 {
                     foreach (Processo processw in core.Processos)
@@ -245,13 +250,13 @@ namespace SchedulerLK
             return false;
         }
 
-        public void ProcessTx(string value)
+        public void ProcessTx(int value)
         {
             if (InvokeRequired)
             {
                 try
                 {
-                    this.Invoke(new Action<string>(ProcessTx), new object[] { value });
+                    this.Invoke(new Action<int>(ProcessTx), new object[] { value });
                 }
                 catch (Exception ex)
                 {
@@ -259,8 +264,11 @@ namespace SchedulerLK
                 }
                 return;
             }
-            txtProcessTx.Clear();
-            txtProcessTx.Text = value;
+            if(ProgressTx.Value == ProgressTx.MaximumValue)
+            {
+                ProgressTx.Value = 0;
+            }
+            ProgressTx.Value += value;
         }
         #endregion BackgroundWorker
 
@@ -271,14 +279,6 @@ namespace SchedulerLK
         }
 
         #endregion Changed
-
-
-        #region Generate
-        public string GenerateTx()
-        {
-            return Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-        }
-        #endregion
 
 
         public void DefineCoreGrid((int, int, string) coreAllocated)
@@ -485,5 +485,61 @@ namespace SchedulerLK
            
         }
 
+        private void btnScheduler_Click(object sender, EventArgs e)
+        {
+            LKPagesPrincipal.SetPage(0);
+        }
+
+        private void btnProcessador_Click(object sender, EventArgs e)
+        {
+            LKPagesPrincipal.SetPage(1);
+
+        }
+
+        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            mov = 1;
+            movX = e.X;
+            movY = e.Y;
+        }
+
+        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(mov == 1)
+            {
+                this.SetDesktopLocation(MousePosition.X - movX, MousePosition.Y - movY);
+            }
+        }
+
+        private void panel1_MouseUp(object sender, MouseEventArgs e)
+        {
+            mov = 0;
+        }
+
+        private void btnFechar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnMinimizar_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void SliderPrioridade_Scroll(object sender, Utilities.BunifuSlider.BunifuHScrollBar.ScrollEventArgs e)
+        {
+            lblPrioridadeValor.Text = SliderPrioridade.Value.ToString();
+        }
+
+        private void TempoUCP_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
+        }
+
+        private void btnSobre_Click(object sender, EventArgs e)
+        {
+            LKPagesPrincipal.SetPage(2);
+
+        }
     }
 }
