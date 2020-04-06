@@ -82,7 +82,7 @@ namespace SchedulerLK
         {
 
             Random numAleatorio = new Random();
-            int PID = numAleatorio.Next(1, 1000);
+            int PID = numAleatorio.Next(1, 10000);
 
             DataTable ss = new DataTable();
             ss.Columns.Add("PID");
