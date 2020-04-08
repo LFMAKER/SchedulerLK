@@ -493,6 +493,74 @@ namespace SchedulerLK
                     break;
             }
         }
+        public void RemoverProcessoCoreGrid(Processo processw, int core)
+        {
+
+            //Removendo do grid core
+            switch (core)
+            {
+                case 1:
+                    foreach (DataGridViewRow row in GridCore1.Rows)
+                    {
+                        if (row.Cells[0].Value != null)
+                        {
+                            string pid = row.Cells[0].Value.ToString();
+                            if (pid.Equals(processw.Pid.ToString()))
+                            {
+                                GridCore1.Rows.RemoveAt(row.Index);
+
+                            }
+                        }
+                    }
+                    break;
+
+                case 2:
+                    foreach (DataGridViewRow row in GridCore2.Rows)
+                    {
+                        if (row.Cells[0].Value != null)
+                        {
+                            string pid = row.Cells[0].Value.ToString();
+                            if (pid.Equals(processw.Pid.ToString()))
+                            {
+                                GridCore2.Rows.RemoveAt(row.Index);
+
+                            }
+                        }
+                    }
+                    break;
+
+                case 3:
+                    foreach (DataGridViewRow row in GridCore3.Rows)
+                    {
+                        if (row.Cells[0].Value != null)
+                        {
+                            string pid = row.Cells[0].Value.ToString();
+                            if (pid.Equals(processw.Pid.ToString()))
+                            {
+                                GridCore3.Rows.RemoveAt(row.Index);
+
+                            }
+                        }
+                    }
+                    break;
+
+                case 4:
+                    foreach (DataGridViewRow row in GridCore4.Rows)
+                    {
+                        if (row.Cells[0].Value != null)
+                        {
+                            string pid = row.Cells[0].Value.ToString();
+                            if (pid.Equals(processw.Pid.ToString()))
+                            {
+                                GridCore4.Rows.RemoveAt(row.Index);
+
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
@@ -573,6 +641,7 @@ namespace SchedulerLK
                         processo.Agora = "Processo Interrompido";
 
                         AtualizarGridProcessos(processo);
+                        RemoverProcessoCoreGrid(processo, core.IdCore);
                     }
                    
                    
@@ -580,8 +649,6 @@ namespace SchedulerLK
             }
 
 
-            //AtualizarGridCores(processo, core.IdCore);
-            //RemoverProcessoCore(processo, core.IdCore);
 
         }
     }
