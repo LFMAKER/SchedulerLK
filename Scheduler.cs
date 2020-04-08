@@ -43,7 +43,7 @@ namespace SchedulerLK
             InitializeComponent();
             InitializeBackgroundWorker();
             backgroundWorker1.WorkerReportsProgress = true;
-            backgroundWorker1.WorkerSupportsCancellation = false;
+            backgroundWorker1.WorkerSupportsCancellation = true;
             this.FormBorderStyle = FormBorderStyle.None;
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
         }
@@ -553,6 +553,35 @@ namespace SchedulerLK
         private void btnSobre_Click(object sender, EventArgs e)
         {
             LKPagesPrincipal.SetPage(2);
+
+        }
+
+        private void btnPararTodosOsProcessos_Click(object sender, EventArgs e)
+        {
+            
+            this.backgroundWorker1.CancelAsync();            
+            Processador processadorReserva = new Processador();
+            processadorReserva.Cores = processadorGlobal.Cores;
+
+            foreach (Core core in processadorReserva.Cores)
+            {
+                foreach(Processo processo in core.Processos)
+                {
+                    if(!processo.Estado.Equals("Finalizado ❎") && !processo.Agora.Equals("Processo Interrompido"))
+                    {
+                        processo.Estado = "Finalizado ❎";
+                        processo.Agora = "Processo Interrompido";
+
+                        AtualizarGridProcessos(processo);
+                    }
+                   
+                   
+                }
+            }
+
+
+            //AtualizarGridCores(processo, core.IdCore);
+            //RemoverProcessoCore(processo, core.IdCore);
 
         }
     }
