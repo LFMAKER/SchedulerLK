@@ -34,10 +34,10 @@ namespace SchedulerLK
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             Utilities.BunifuPages.BunifuAnimatorNS.Animation animation1 = new Utilities.BunifuPages.BunifuAnimatorNS.Animation();
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges3 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Scheduler));
             Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges1 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
             Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges2 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges3 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -66,6 +66,7 @@ namespace SchedulerLK
             this.AgoraGridProcessos = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LKPagesPrincipal = new Bunifu.UI.WinForms.BunifuPages();
             this.SchedulerPage = new System.Windows.Forms.TabPage();
+            this.btnAlerta = new Bunifu.UI.WinForms.BunifuLabel();
             this.btnLimparTudo = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             this.btnPararTodosOsProcessos = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             this.lblTempUCP = new Bunifu.UI.WinForms.BunifuLabel();
@@ -268,6 +269,8 @@ namespace SchedulerLK
             // SchedulerPage
             // 
             this.SchedulerPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(56)))), ((int)(((byte)(62)))));
+            this.SchedulerPage.Controls.Add(this.btnAlerta);
+            this.SchedulerPage.Controls.Add(this.btnLimparTudo);
             this.SchedulerPage.Controls.Add(this.btnPararTodosOsProcessos);
             this.SchedulerPage.Controls.Add(this.lblTempUCP);
             this.SchedulerPage.Controls.Add(this.TempoUCP);
@@ -285,6 +288,22 @@ namespace SchedulerLK
             this.SchedulerPage.TabIndex = 0;
             this.SchedulerPage.Text = "Scheduler";
             // 
+            // btnAlerta
+            // 
+            this.btnAlerta.AutoEllipsis = false;
+            this.btnAlerta.CursorType = null;
+            this.btnAlerta.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAlerta.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnAlerta.Location = new System.Drawing.Point(688, 70);
+            this.btnAlerta.Name = "btnAlerta";
+            this.btnAlerta.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnAlerta.Size = new System.Drawing.Size(0, 0);
+            this.btnAlerta.TabIndex = 18;
+            this.btnAlerta.Text = null;
+            this.btnAlerta.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
+            this.btnAlerta.TextFormat = Bunifu.UI.WinForms.BunifuLabel.TextFormattingOptions.Default;
+            this.btnAlerta.Visible = false;
+            // 
             // btnLimparTudo
             // 
             this.btnLimparTudo.AllowToggling = false;
@@ -299,11 +318,11 @@ namespace SchedulerLK
             this.btnLimparTudo.ColorContrastOnClick = 45;
             this.btnLimparTudo.ColorContrastOnHover = 45;
             this.btnLimparTudo.Cursor = System.Windows.Forms.Cursors.Default;
-            borderEdges3.BottomLeft = true;
-            borderEdges3.BottomRight = true;
-            borderEdges3.TopLeft = true;
-            borderEdges3.TopRight = true;
-            this.btnLimparTudo.CustomizableEdges = borderEdges3;
+            borderEdges1.BottomLeft = true;
+            borderEdges1.BottomRight = true;
+            borderEdges1.TopLeft = true;
+            borderEdges1.TopRight = true;
+            this.btnLimparTudo.CustomizableEdges = borderEdges1;
             this.btnLimparTudo.DialogResult = System.Windows.Forms.DialogResult.None;
             this.btnLimparTudo.DisabledBorderColor = System.Drawing.Color.Empty;
             this.btnLimparTudo.DisabledFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
@@ -322,7 +341,7 @@ namespace SchedulerLK
             this.btnLimparTudo.IdleIconLeftImage = null;
             this.btnLimparTudo.IdleIconRightImage = null;
             this.btnLimparTudo.IndicateFocus = false;
-            this.btnLimparTudo.Location = new System.Drawing.Point(997, 4);
+            this.btnLimparTudo.Location = new System.Drawing.Point(1009, 103);
             this.btnLimparTudo.Name = "btnLimparTudo";
             this.btnLimparTudo.onHoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(41)))), ((int)(((byte)(46)))));
             this.btnLimparTudo.onHoverState.BorderRadius = 1;
@@ -348,11 +367,12 @@ namespace SchedulerLK
             this.btnLimparTudo.OnPressedState.ForeColor = System.Drawing.Color.White;
             this.btnLimparTudo.OnPressedState.IconLeftImage = null;
             this.btnLimparTudo.OnPressedState.IconRightImage = null;
-            this.btnLimparTudo.Size = new System.Drawing.Size(52, 27);
+            this.btnLimparTudo.Size = new System.Drawing.Size(89, 39);
             this.btnLimparTudo.TabIndex = 17;
             this.btnLimparTudo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnLimparTudo.TextMarginLeft = 0;
             this.btnLimparTudo.UseDefaultRadiusAndThickness = true;
+            this.btnLimparTudo.Visible = false;
             this.btnLimparTudo.Click += new System.EventHandler(this.btnLimparTudo_Click);
             // 
             // btnPararTodosOsProcessos
@@ -369,11 +389,11 @@ namespace SchedulerLK
             this.btnPararTodosOsProcessos.ColorContrastOnClick = 45;
             this.btnPararTodosOsProcessos.ColorContrastOnHover = 45;
             this.btnPararTodosOsProcessos.Cursor = System.Windows.Forms.Cursors.Default;
-            borderEdges1.BottomLeft = true;
-            borderEdges1.BottomRight = true;
-            borderEdges1.TopLeft = true;
-            borderEdges1.TopRight = true;
-            this.btnPararTodosOsProcessos.CustomizableEdges = borderEdges1;
+            borderEdges2.BottomLeft = true;
+            borderEdges2.BottomRight = true;
+            borderEdges2.TopLeft = true;
+            borderEdges2.TopRight = true;
+            this.btnPararTodosOsProcessos.CustomizableEdges = borderEdges2;
             this.btnPararTodosOsProcessos.DialogResult = System.Windows.Forms.DialogResult.None;
             this.btnPararTodosOsProcessos.DisabledBorderColor = System.Drawing.Color.Empty;
             this.btnPararTodosOsProcessos.DisabledFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
@@ -461,7 +481,7 @@ namespace SchedulerLK
             this.TempoUCP.Name = "TempoUCP";
             this.TempoUCP.Size = new System.Drawing.Size(155, 36);
             this.TempoUCP.TabIndex = 14;
-            this.TempoUCP.Text = "1";
+            this.TempoUCP.Text = "100";
             this.TempoUCP.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.TempoUCP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TempoUCP_KeyPress);
             // 
@@ -570,11 +590,11 @@ namespace SchedulerLK
             this.btnCriarProcesso.ColorContrastOnClick = 45;
             this.btnCriarProcesso.ColorContrastOnHover = 45;
             this.btnCriarProcesso.Cursor = System.Windows.Forms.Cursors.Default;
-            borderEdges2.BottomLeft = true;
-            borderEdges2.BottomRight = true;
-            borderEdges2.TopLeft = true;
-            borderEdges2.TopRight = true;
-            this.btnCriarProcesso.CustomizableEdges = borderEdges2;
+            borderEdges3.BottomLeft = true;
+            borderEdges3.BottomRight = true;
+            borderEdges3.TopLeft = true;
+            borderEdges3.TopRight = true;
+            this.btnCriarProcesso.CustomizableEdges = borderEdges3;
             this.btnCriarProcesso.DialogResult = System.Windows.Forms.DialogResult.None;
             this.btnCriarProcesso.DisabledBorderColor = System.Drawing.Color.Empty;
             this.btnCriarProcesso.DisabledFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
@@ -1254,7 +1274,6 @@ namespace SchedulerLK
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(16)))), ((int)(((byte)(18)))));
-            this.panel1.Controls.Add(this.btnLimparTudo);
             this.panel1.Controls.Add(this.lblTitleWindow);
             this.panel1.Controls.Add(this.btnMinimizar);
             this.panel1.Controls.Add(this.btnFechar);
@@ -1582,6 +1601,7 @@ namespace SchedulerLK
         private Bunifu.UI.WinForms.BunifuLabel lblTitleWindow;
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton btnPararTodosOsProcessos;
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton btnLimparTudo;
+        private Bunifu.UI.WinForms.BunifuLabel btnAlerta;
     }
 }
 

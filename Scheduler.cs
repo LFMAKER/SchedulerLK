@@ -65,7 +65,7 @@ namespace SchedulerLK
             TipoProcesso.DataSource = tp;
             TipoProcesso.SelectedIndex = 0;
 
-            TempoUCP.Text = "1";
+            TempoUCP.Text = "100";
 
             //Alocando Processador
             processadorGlobal = new Processador();
@@ -83,6 +83,7 @@ namespace SchedulerLK
         private void btnCriarProcesso_Click_1(object sender, EventArgs e)
         {
             StopProcess = false;
+            btnAlerta.Visible = false;
             Random numAleatorio = new Random();
             int PID = numAleatorio.Next(1, 10000);
 
@@ -651,6 +652,8 @@ namespace SchedulerLK
             }
 
             StopProcess = true;
+            btnAlerta.Visible = false;
+            btnLimparTudo.Visible = true;
 
 
         }
@@ -660,7 +663,10 @@ namespace SchedulerLK
             if (StopProcess)
             {
                 this.backgroundWorker1.CancelAsync();
-                processadorGlobal.Cores.Clear();
+                foreach(Core core in processadorGlobal.Cores)
+                {
+                    core.Processos.Clear();
+                }
                 GridProcessos.Rows.Clear();
                 GridProcessos.Refresh();
                 GridCore1.Rows.Clear();
@@ -671,6 +677,14 @@ namespace SchedulerLK
                 GridCore3.Refresh();
                 GridCore4.Rows.Clear();
                 GridCore4.Refresh();
+                btnLimparTudo.Visible = false;
+            }
+            else
+            {
+                btnAlerta.Visible = true;
+                btnAlerta.Text = "*Para limpar os processo, você deve parar tudo antes!";
+                btnLimparTudo.Visible = false;
+
             }
         }
     }
