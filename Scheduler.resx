@@ -259,6 +259,14 @@
         d2luZy5Qb2ludEYCAAAAAXgBeQAACwsCAAAAAAAAAAAAgD8L
 </value>
   </data>
+  <data name="btnLimparTudo.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADQAAAAbCAYAAAAzgqwIAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABnSURBVFhH7c+xCQAgEEPRW8VCOPcfxzEcQBF+6QA5SeB3
+        aV58udZztj527XLCuaDXoV5wDJINjkGywTFINjgGyQbHINngGCQbHINkg2OQbHAMkg2OQbLBMUg2OBeU
+        63WoVS44Py3iAKkr+xObM2BTAAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="btnScheduler.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAHkAAAAgCAYAAAA2e9d2AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -308,6 +316,9 @@
         wPN6O9SXmxe8zbsxHj7JxdLaXajEAAAAAElFTkSuQmCC
 </value>
   </data>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>25</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAYAAAAAAAEAIACfTAAAZgAAAICAAAABACAAKAgBAAVNAABAQAAAAQAgAChCAAAtVQEAMDAAAAEA

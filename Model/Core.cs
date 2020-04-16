@@ -23,21 +23,26 @@ namespace SchedulerLK.Model
         {
             int alocate = 0;
             int tryAlocate = 0;
+
+            //Balanceando os Cores do processador
+            (int BalanceIdCore, int balanceCore) balanceCore = BalanceCoreSelector(coresProcessor);
+
+
             foreach (Core core in coresProcessor)
             {
-                if (core.Processos.Count < 5 /*|| !core.Processos.Any(x => x.Estado.Contains("Pronto ✔") || x.Estado.Contains("Executando 🔄"))*/)
+                if (core.IdCore == balanceCore.BalanceIdCore /*|| !core.Processos.Any(x => x.Estado.Contains("Pronto ✔") || x.Estado.Contains("Executando 🔄"))*/)
                 {
-                        core.Processos.Add(process);
-                        alocate++;
-                        return (core.IdCore, process.Pid, process.Estado);
+                    core.Processos.Add(process);
+                    alocate++;
+                    return (core.IdCore, process.Pid, process.Estado);
                 }
                 else
                 {
                     tryAlocate++;
-                    
+
                 }
 
-                if(tryAlocate == coresProcessor.Count)
+                if (tryAlocate == coresProcessor.Count)
                 {
                     //Adicionar na lista de espera
                     if (!coreEspera.ProcessosEspera.Any(x => x.Pid.Equals(process.Pid)))
@@ -54,6 +59,22 @@ namespace SchedulerLK.Model
             return string.Format("{0} Core - Processes -> {1}", IdCore, Processos.Count);
         }
 
+
+        public static (int BalanceIdCore, int BalanceCoreProcessNumber) BalanceCoreSelector(List<Core> cores) {
+            int BalanceIdCore = 0;
+            int BalanceCoreProcessNumber = 10000000;
+            //Recuperar o core com menor processos para alocar balanceadamente
+            foreach (Core core in cores)
+            {
+                if (core.Processos.Count < BalanceCoreProcessNumber)
+                {
+                    BalanceCoreProcessNumber = core.Processos.Count;
+                    BalanceIdCore = core.IdCore;
+                }
+            }
+
+            return (BalanceIdCore, BalanceCoreProcessNumber);
+        }
 
     }
 }

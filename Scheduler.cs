@@ -16,6 +16,8 @@ namespace SchedulerLK
 {
     public partial class Scheduler : Form
     {
+        bool StopProcess = false;
+
         //Moving
         int mov;
         int movX;
@@ -80,7 +82,7 @@ namespace SchedulerLK
         #region Click
         private void btnCriarProcesso_Click_1(object sender, EventArgs e)
         {
-
+            StopProcess = false;
             Random numAleatorio = new Random();
             int PID = numAleatorio.Next(1, 10000);
 
@@ -648,8 +650,28 @@ namespace SchedulerLK
                 }
             }
 
+            StopProcess = true;
 
 
+        }
+
+        private void btnLimparTudo_Click(object sender, EventArgs e)
+        {
+            if (StopProcess)
+            {
+                this.backgroundWorker1.CancelAsync();
+                processadorGlobal.Cores.Clear();
+                GridProcessos.Rows.Clear();
+                GridProcessos.Refresh();
+                GridCore1.Rows.Clear();
+                GridCore1.Refresh();
+                GridCore2.Rows.Clear();
+                GridCore2.Refresh();
+                GridCore3.Rows.Clear();
+                GridCore3.Refresh();
+                GridCore4.Rows.Clear();
+                GridCore4.Refresh();
+            }
         }
     }
 }
