@@ -12,7 +12,7 @@
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/Kazehana-br"><img src="https://avatars.githubusercontent.com/u/61745254?v=3" width="100px;" alt=""/><br /><sub><b>Kalleo Leandro</b></sub></a><br /><a title="Documentation">📖</a> <a title="Reviewed Pull Requests">👀</a> <a href="#talk-kentcdodds" title="Talks">📢</a></td>
+    <td align="center"><a href="https://github.com/Kazehana-br"><img src="https://avatars.githubusercontent.com/u/61745254?v=3" width="100px;" alt=""/><br /><sub><b>Kalleo Leandro</b></sub></a><br /><a href="#" title="Documentation">📖</a> <a href="#" title="Reviewed Pull Requests">👀</a> <a href="#" title="Talks">📢</a></td>
   </tr>
 </table>
 
